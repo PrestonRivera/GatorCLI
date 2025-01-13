@@ -28,20 +28,22 @@ func getConfigFilePath() (string, error) {
 func Read() (Config, error) {
 	configPath, err := getConfigFilePath()
 	if err != nil {
-		return Config{}, errors.New("failed to retrieve config file path: " + err.Error())
+		return Config{}, errors.New("failed to retrieve config file path: " + err.Error())	
 	}
 
-	data, err := os.ReadFile(configPath)
+	file, err := os.Open(configPath)
 	if err != nil {
-		return Config{}, errors.New("failed to read config file: " + err.Error())
+		return Config{}, errors.New("failed to open config file: " + err.Error())
 	}
+	defer file.Close()
 
-	var cfg Config
-	err = json.Unmarshal(data, &cfg)
+	decoder := json.NewDecoder(file)
+	cfg := Config{}
+	err = decoder.Decode(&cfg)
 	if err != nil {
-		return Config{}, errors.New("failed to unmarshal json from config file: " + err.Error())
+		return Config{}, errors.New("failed to parse json from config file: " + err.Error())
 	}
-	return cfg, nil
+	return cfg, nil 
 }
 
 
@@ -51,14 +53,22 @@ func write(cfg Config) error {
 		return errors.New("failed to retrieve config file path: " + err.Error())
 	}
 
-	data, err := json.MarshalIndent(cfg, "", "  ")
+	file, err := os.Create(configPath)
 	if err != nil {
-		return errors.New("failed to marshal json: " + err.Error())
+		return errors.New("failed to open file for  writing: " + err.Error())
 	}
+	defer file.Close()
 
-	err = os.WriteFile(configPath, data, 0644)
+	encoder := json.NewEncoder(file)
+	err = encoder.Encode(cfg)
 	if err != nil {
-		return errors.New("failed to write config file: " + err.Error())
+		return errors.New("failed to encode json to config file: " + err.Error())
 	}
 	return nil
+}
+
+
+func (cfg *Config) SetUser(username string) error {
+	cfg.CurrentUserName = username
+	return write(*cfg)
 }
