@@ -13,3 +13,13 @@ RETURNING *;
 SELECT *
 FROM users
 WHERE name = $1;
+
+
+-- name: DeleteUsers :exec
+DELETE FROM users;
+
+
+-- name: GetUsers :many
+SELECT created_at, updated_at, name 
+FROM users
+ORDER BY created_at ASC;

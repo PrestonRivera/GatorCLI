@@ -27,7 +27,7 @@ func handlerLogin(s *state, cmd command) error {
 	if err != nil {
 		return fmt.Errorf("Could not set current user: %w", err)
 	}
-	
+
 	fmt.Println("User has been switched successfully")
 	return nil
 }
