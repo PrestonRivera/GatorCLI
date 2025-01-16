@@ -1,10 +1,11 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
-	"database/sql"
+
 	"github.com/PrestonRivera/GatorCLI/internal/config"
 	"github.com/PrestonRivera/GatorCLI/internal/database"
 	_ "github.com/lib/pq"
@@ -43,13 +44,11 @@ func main() {
 
 	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
-	cmds.register("reset", cmds.reset)
-	cmds.register("users", cmds.users)
-	
-	if len(os.Args) < 2 {
-		log.Fatal("Not enough arguments were provided")
-		return 
-	}
+	cmds.register("reset", handlerReset)
+	cmds.register("users", handlerListUsers)
+	cmds.register("agg", handlerAgg)
+	cmds.register("addfeed", handlerAddFeed)
+
 	cmdName := os.Args[1]
 	cmdArgs := os.Args[2:]
 
