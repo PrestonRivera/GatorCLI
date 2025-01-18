@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"time"
-
 	"github.com/PrestonRivera/GatorCLI/internal/database"
 	"github.com/google/uuid"
 	"github.com/lib/pq"
@@ -142,12 +141,25 @@ func handlerAddFeed(s *state, cmd command, user database.User) error {
 
 
 func handlerAgg(s *state, cmd command) error {
-	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
-	if err != nil {
-		return fmt.Errorf(" * Failed to fetch feed:  %w", err)
+	if len(cmd.Args) != 1 {
+		return fmt.Errorf(" * Usage: %v <time_between_reqs>", cmd.Name)
 	}
-	fmt.Printf(" * Feed: %+v\n", feed)
-	return nil
+
+	timeBetweenRequests, err := time.ParseDuration(cmd.Args[0])
+	if err != nil {
+		return fmt.Errorf(" * Invalid duration: %w", err)
+	}
+	ticker := time.NewTicker(timeBetweenRequests)
+
+	fmt.Println("=========================================================")
+	fmt.Printf(" * Collecting feeds every %v....\n", timeBetweenRequests)
+	fmt.Println("---------------------------------------------------------")
+	
+	for ; ; <-ticker.C {
+		if err := scrapeFeeds(s); err != nil {
+			return fmt.Errorf(" * Failed to scrape feeds: %w", err)
+		}
+	}
 }
 
 
