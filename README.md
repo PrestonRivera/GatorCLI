@@ -77,6 +77,7 @@
 ## Available Commands
 
 - Setup & Database:
+```
 gator help                  (List available commands and the use cases)
 gator register <name> 	    (Create a new user)
 gator reset 			          (Reset/clear the database)
@@ -93,3 +94,4 @@ gator unfollow <feed_id> 	  (Unfollow a feed that already exists in the database
 gator browse [limit] 	      (View the posts, defaults to 2)
 gator users 			          (List all users)
 gator agg <30s> 	          (Start the aggregator. Can use preferred time intervals such as 1m 3m 6m etc...) ctrl + c to end
+```
