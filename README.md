@@ -9,7 +9,7 @@
 
 ## Installation
 
-1. Install gator with:
+1. Install `gator` with:
   ```
   go install github.com/PrestonRivera/GatorCLI@latest
   ```
@@ -77,19 +77,19 @@
 ## Available Commands
 
 - Setup & Database:
-  - 'gator help' - (List available commands and the use cases)
-  - 'gator register <name>' - (Create a new user)
-  - 'gator reset' - (Reset/clear the database)
-  - 'gator login <name>' - (Log in as a user that already exists)
+  - `gator help` - (List available commands and the use cases)
+  - `gator register <name>` - (Create a new user)
+  - `gator reset` - (Reset/clear the database)
+  - `gator login <name>` - (Log in as a user that already exists)
 
 - Feed management:
-  - 'gator addfeed <url>' - (Add a feed to the database)
-  - 'gator feeds' - (List all feeds)
-  - 'gator follow <feed_id>' - (Follow a feed that already exists in the database)
-  - 'gator following' - (Lists feeds the user is following)
-  - 'gator unfollow <feed_id>' - (Unfollow a feed that already exists in the database)
+  - `gator addfeed <url>` - (Add a feed to the database)
+  - `gator feeds` - (List all feeds)
+  - `gator follow <feed_id>` - (Follow a feed that already exists in the database)
+  - `gator following` - (Lists feeds the user is following)
+  - `gator unfollow <feed_id>` - (Unfollow a feed that already exists in the database)
 
 - Content & Updates:
-  - 'gator browse [limit]' - (View the posts, defaults to 2)
-  - 'gator users' - (List all users)
-  - 'gator agg <30s>' - (Start the aggregator. Can use preferred time intervals such as 1m 3m 6m etc...) ctrl + c to end
+  - `gator browse [limit]` - (View the posts, defaults to 2)
+  - `gator users` - (List all users)
+  - `gator agg <30s>` - (Start the aggregator. Can use preferred time intervals such as 1m 3m 6m etc...) ctrl + c to end
