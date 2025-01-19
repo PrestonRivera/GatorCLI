@@ -4,11 +4,82 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
+
 	"github.com/PrestonRivera/GatorCLI/internal/database"
 	"github.com/google/uuid"
 	"github.com/lib/pq"
+	"github.com/fatih/color"
 )
+
+
+func handlerHelp(s *state, cmd command) error {
+    helpText := `
+--Setup & Database:
+gator help					(List available commands and use cases)
+gator register <name>    	(Create new account)
+gator reset              	(Reset/clear the database)
+gator login <name>       	(Log in as a user that already exists)
+
+--Feed Management:
+gator addfeed <url>      	(Adds a feed to the database)
+gator feeds              	(List all feeds)
+gator follow <feed_id>   	(Follow a feed that already exists in the database)
+gator following          	(Lists feeds the user is following)
+gator unfollow <feed_id> 	(unfollow a feed that already exists in the database)
+
+--Content & Updates:
+gator browse [number]    	(View the posts, defaults to 2)
+gator users              	(List all users)
+gator agg <time_interval>	(Start the aggragator. Example intervals: 30s, 1m, 5m, etc.)
+                            	Use ctrl + c to end
+`
+    fmt.Println(helpText)
+    return nil
+}
+
+
+func handlerBrowse(s *state, cmd command, user database.User) error {
+	limit := 2
+
+	if len(cmd.Args) == 1 {
+		parsedLimit, err := strconv.Atoi(cmd.Args[0])
+		if err != nil {
+			return fmt.Errorf(" * Invalid limit value: %v", err)
+		}
+		limit = parsedLimit
+	}
+
+	post, err := s.db.GetPostForUser(context.Background(), database.GetPostForUserParams{
+		UserID: user.ID,
+		Limit: int32(limit),
+	})
+	if err != nil {
+		return fmt.Errorf(" * Failed to get post for user: %w", err)
+	}
+	
+	titleColor := color.New(color.FgCyan, color.Bold)
+	urlColor := color.New(color.FgHiYellow)
+	divider := color.New(color.FgBlue)
+
+	divider.Println("=========================================================")
+	for _, p := range post {
+    	titleColor.Printf(" * Title: %s\n", p.Title)
+    	urlColor.Printf(" * URL: %s\n", p.Url)
+    	if p.Description.Valid {
+        	cleanDescription := stripHTMLTags(p.Description.String)
+        	if len(cleanDescription) > 200 {
+            	cleanDescription = cleanDescription[:200] + "..."
+        	}
+        	fmt.Printf(" * Description: %s\n", cleanDescription)
+    	}
+    	fmt.Printf(" * Updated: %s\n", p.UpdatedAt.Format("Jan 2, 2006 at 3:04 PM"))
+    	fmt.Printf(" * Published: %s\n", p.PublishedAt.Format("Jan 2, 2006 at 3:04 PM"))
+    	divider.Println("---------------------------------------------------------")
+	}
+	return nil
+}
 
 
 func handlerUnfollowFeed(s *state, cmd command, user database.User) error {
@@ -49,7 +120,7 @@ func handlerFollowing(s *state, cmd command, user database.User) error {
         fmt.Println(" * Not following any feeds")
     } else {
         for _, feed := range feeds {
-            fmt.Printf(" * Following: %v\n", feed.FeedName)
+            fmt.Printf(" * Following: %v (URL: %v)\n", feed.FeedName, feed.Url)
         }
     }
     fmt.Println("---------------------------------------------------------")

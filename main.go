@@ -43,6 +43,7 @@ func main() {
 		cliCommands: make(map[string]func(*state, command) error),
 	}
 
+	cmds.register("help", handlerHelp)
 	cmds.register("login", handlerLogin)
 	cmds.register("register", handlerRegister)
 	cmds.register("reset", handlerReset)
@@ -53,6 +54,7 @@ func main() {
 	cmds.register("follow", middlewareLoggedIn(handlerFollow))
 	cmds.register("following", middlewareLoggedIn(handlerFollowing))
 	cmds.register("unfollow", middlewareLoggedIn(handlerUnfollowFeed))
+	cmds.register("browse", middlewareLoggedIn(handlerBrowse))
 
 	cmdName := os.Args[1]
 	cmdArgs := os.Args[2:]
