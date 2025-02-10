@@ -53,6 +53,24 @@ for people who work on a shared development server. A whole development team can
 - `gator agg 30s`
 - `gator browse 5`
 
+## Contributing
+
+### Clone the repo 
+
+- `git clone https://github.com/PrestonRivera/GatorCLI.git`
+
+### Build the project
+
+- `go build -o gator`
+
+### Run the project
+
+- `./gator help`
+
+### Submit a pull request
+
+If you'd like to contribute, please fork the repository and open a pull request to the `main` branch.
+
 ## Available Commands
 
 - Setup & Database:
