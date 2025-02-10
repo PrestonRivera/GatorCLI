@@ -1,11 +1,22 @@
 # Gator CLI
 
-- A multi-player CLI tool for aggregating RSS feeds and veiwing the posts.
+- A multi-user CLI tool for aggregating RSS feeds and veiwing the posts.
+
+## Motivation
+
+I had a problem with keeping up with my favorite dev blogs. Having to switch between 
+multiple browser tabs and manage notifications from different blog subscriptions was eating up 20-30 minutes of my day.
+
+As a developer who practically lives in the terminal GatorCLI brings all my favorite blogs to me. 
+I'm able to quickly check blogs while coding without context-switching. I made it multi-user capable 
+for people who work on a shared development server. A whole development team can use it independently with their own feed configurations.
 
 ## Prerequisites
 
 - Go version: go1.23.5
 - PostgreSQL version: 15.10
+
+# Quick Start
 
 ## Installation
 
@@ -22,41 +33,6 @@
     ```
   - For other systems, download from [PostgreSQL official website](https://www.postgresql.org/download/)
 
-  - Ensure the installation worked and you have version 15+:
-    ```
-    psql version
-    ```
-
-  - (Linux only) Update system users postgres password (Do not forget it):
-    ```
-    sudo passwd postgres
-    ```
-
-  - Start PostgreSQL service
-    ```
-    sudo service postgresql start
-    ```
-
-  - Create a new database:
-    ```
-    CREATE DATABASE gator;
-    ```
-
-  - Connect to the new database:
-    ```
-    \c gator
-    ```
-
-  - (Linux only) Set the database users password:
-    ```
-    ALTER USER postgres PASSWORD 'postgres';
-    ```
-
-  - Exit the database:
-    ```
-    exit
-    ```
-
 ## Configuration
 
 - Create a `.gatorconfig.json` file in your home directory with the following structure:
@@ -66,13 +42,16 @@
   }
   ```
 
-- Replace the values with your database connection string.
-  - macOS will look something like this: 'postgres://yourusername:@localhost:5432/gator'
-  - Linux will look something like this: 'postgres://postgres:postgres@localhost:5432/gator'
-
 - You can test your connection string by trying to connect to psql:
   ```
   psql "your_connection_string"
+
+## Quick Start commands
+
+- `gator register <name>`
+- `gator addfeed <url>`
+- `gator agg 30s`
+- `gator browse 5`
 
 ## Available Commands
 
