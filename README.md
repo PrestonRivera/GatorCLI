@@ -7,7 +7,7 @@
 I had a problem with keeping up with my favorite dev blogs. Having to switch between 
 multiple browser tabs and manage notifications from different blog subscriptions was eating up 20-30 minutes of my day.
 
-As a developer who practically lives in the terminal GatorCLI brings all my favorite blogs to me. 
+As a developer who practically lives in the terminal, GatorCLI brings all my favorite blogs to me. 
 I'm able to quickly check blogs while coding without context-switching. I made it multi-user capable 
 for people who work on a shared development server. A whole development team can use it independently with their own feed configurations.
 
