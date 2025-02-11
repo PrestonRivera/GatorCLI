@@ -1,6 +1,6 @@
 # Gator CLI
 
-- A multi-user CLI tool for aggregating RSS feeds and veiwing the posts.
+- A multi-user CLI tool for aggregating RSS feeds and viewing the posts.
 
 ## Motivation
 
